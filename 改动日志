@@ -1,0 +1,16 @@
+1、解压缩源码包，源码版本1.1.1稳定版。删除bsp目录下除stm32f10x以外的目录，并删除编译目录下与mdk、iar相关的工程文件、配置文件
+２、修改rtconfig.py文件，编译器使用gcc，并指定编译器路径。
+
+以上两步完成后，便可以用scons -j8 来编译生成rtthread.bin文件，下载到魔笛板中，就可以看到rt-thread的欢迎信息，且基本finsh命令也可用，第一步完成。
+
+
+3、加入外部SRAM，只需要打开board.h中的宏即可，如下：
+#define STM32_EXT_SRAM          1
+
+４、加入外部SRAM后，需测试一下SRAM是否正常工作，在board.c的末尾加入一段测试代码以测试SRAM。
+经测试，SRAM正常工作。
+
+
+5、为了在linux工环境下更快地使用jlink烧录程序，特在编译目录下加入两个脚本jflash和jflash.script，双击jflash即可一键烧录固件。
+
+

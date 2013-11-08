@@ -1,0 +1,7 @@
+#!/bin/sh
+
+#
+# Run JLink_EXE
+#
+#export LD_LIBRARY_PATH=/home/zhy/tools/JLink_Linux_V436f/:$LD_LIBRARY_PATH
+/home/zhy/tools/JLink_Linux_V436f/JLinkExe jflash.script
