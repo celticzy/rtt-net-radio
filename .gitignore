@@ -1,4 +1,2 @@
 bsp/stm32f10x/build/
-bsp/stm32f10x/*.axf
-bsp/stm32f10x/*.pyc
-bsp/stm32f10x/*.bin
+bsp/stm32f10x/rtthread.bin
