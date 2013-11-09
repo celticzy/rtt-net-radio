@@ -73,7 +73,7 @@
 #define FINSH_USING_DESCRIPTION
 
 /* SECTION: device filesystem */
-/* #define RT_USING_DFS */
+//#define RT_USING_DFS
 
 #define RT_USING_DFS_ELMFAT
 #define RT_DFS_ELM_WORD_ACCESS
@@ -92,7 +92,7 @@
 #define DFS_FD_MAX					4
 
 /* SECTION: lwip, a lighwight TCP/IP protocol stack */
-/* #define RT_USING_LWIP */
+#define RT_USING_LWIP
 /* LwIP uses RT-Thread Memory Management */
 #define RT_LWIP_USING_RT_MEM
 /* Enable ICMP protocol*/

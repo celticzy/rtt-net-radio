@@ -242,28 +242,6 @@ void SDIO_IRQHandler(void)
 }
 #endif
 
-#ifdef RT_USING_LWIP
-#ifdef STM32F10X_CL
-/*******************************************************************************
-* Function Name  : ETH_IRQHandler
-* Description    : This function handles ETH interrupt request.
-* Input          : None
-* Output         : None
-* Return         : None
-*******************************************************************************/
-void ETH_IRQHandler(void)
-{
-	extern void rt_hw_stm32_eth_isr(void);
-
-    /* enter interrupt */
-    rt_interrupt_enter();
-
-	rt_hw_stm32_eth_isr();
-
-    /* leave interrupt */
-    rt_interrupt_leave();
-}
-#else
 #if (STM32_ETH_IF == 0)
 /*******************************************************************************
 * Function Name  : EXTI0_IRQHandler
@@ -289,15 +267,15 @@ void EXTI2_IRQHandler(void)
 }
 #endif
 
-#if (STM32_ETH_IF == 1)
+//#if (STM32_ETH_IF == 1)
 /*******************************************************************************
-* Function Name  : EXTI4_IRQHandler
-* Description    : This function handles External lines 9 to 5 interrupt request.
+* Function Name  : EXTI1_IRQHandler
+* Description    : This function handles External lines 1 interrupt request.
 * Input          : None
 * Output         : None
 * Return         : None
 *******************************************************************************/
-void EXTI4_IRQHandler(void)
+void EXTI1_IRQHandler(void)
 {
 	extern void rt_dm9000_isr(void);
 
@@ -305,16 +283,18 @@ void EXTI4_IRQHandler(void)
 	rt_interrupt_enter();
 
 	/* Clear the DM9000A EXTI line pending bit */
-	EXTI_ClearITPendingBit(EXTI_Line4);
+	EXTI_ClearITPendingBit(EXTI_Line1);
 
-	rt_dm9000_isr();
+	while(GPIO_ReadInputDataBit(GPIOA,GPIO_Pin_1)==0)
+	{
+		rt_dm9000_isr();
+	}
 
 	/* leave interrupt */
 	rt_interrupt_leave();
 }
-#endif
-#endif
-#endif /* end of RT_USING_LWIP */
+//#endif
+
 
 /**
   * @}

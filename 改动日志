@@ -8,9 +8,17 @@
 #define STM32_EXT_SRAM          1
 
 ４、加入外部SRAM后，需测试一下SRAM是否正常工作，在board.c的末尾加入一段测试代码以测试SRAM。
+
 经测试，SRAM正常工作。
 
 
 5、为了在linux工环境下更快地使用jlink烧录程序，特在编译目录下加入两个脚本jflash和jflash.script，双击jflash即可一键烧录固件。
 
+6、修改LED灯的配置，在led.c文件中，让四个灯都闪起来。
+
+７、开启LWIP，不开启DHCP，在board.h中选择网卡为DM9000,在dm9000.c中主要修改DM9000的中断线的配置，改成在PA1的上拉配置，下降沿触发中断。另外，修改SConscript文件，去掉enc20j60.c文件参与编译
+
+这时候编译、烧写成功后，主机能够ping通主板（192.168.1.30）了
+
+８、加入一写tcp server代码，完成简单的echo功能，并修改SConscript，让tcp_server_echo.c文件参与编译。编译、烧录完成后，输入tcp_server命令，开启tcp_server_echo线程，这时便可以telnet 192.168.1.30 56793成功。
 

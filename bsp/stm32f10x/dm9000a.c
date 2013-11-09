@@ -32,8 +32,8 @@
 //--------------------------------------------------------
 
 #define DM9000_PHY          0x40    /* PHY address 0x01 */
-#define RST_1()             GPIO_SetBits(GPIOE,GPIO_Pin_5)
-#define RST_0()             GPIO_ResetBits(GPIOE,GPIO_Pin_5)
+//#define RST_1()             GPIO_SetBits(GPIOE,GPIO_Pin_5)
+//#define RST_0()             GPIO_ResetBits(GPIOE,GPIO_Pin_5)
 
 #define MAX_ADDR_LEN 6
 enum DM9000_PHY_mode
@@ -587,7 +587,7 @@ static void NVIC_Configuration(void)
     NVIC_InitTypeDef NVIC_InitStructure;
 
     /* Enable the EXTI4 Interrupt */
-    NVIC_InitStructure.NVIC_IRQChannel = EXTI4_IRQn;
+    NVIC_InitStructure.NVIC_IRQChannel = EXTI1_IRQn;
     NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;
     NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
     NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
@@ -600,31 +600,31 @@ static void GPIO_Configuration()
     EXTI_InitTypeDef EXTI_InitStructure;
 
     /* configure PE5 as eth RST */
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_5;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
-    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-    GPIO_Init(GPIOE,&GPIO_InitStructure);
-    GPIO_SetBits(GPIOE,GPIO_Pin_5);
+//    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_5;
+//    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+//    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+//    GPIO_Init(GPIOE,&GPIO_InitStructure);
+//    GPIO_SetBits(GPIOE,GPIO_Pin_5);
     //RST_1();
 
     /* configure PE4 as external interrupt */
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_4;
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_1;
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD;
-    GPIO_Init(GPIOE, &GPIO_InitStructure);
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;
+    GPIO_Init(GPIOA, &GPIO_InitStructure);
 
-    /* Connect DM9000 EXTI Line to GPIOE Pin 4 */
-    GPIO_EXTILineConfig(GPIO_PortSourceGPIOE, GPIO_PinSource4);
+    /* Connect DM9000 EXTI Line to GPIOE Pin 1 */
+    GPIO_EXTILineConfig(GPIO_PortSourceGPIOA, GPIO_PinSource1);
 
     /* Configure DM9000 EXTI Line to generate an interrupt on falling edge */
-    EXTI_InitStructure.EXTI_Line = EXTI_Line4;
+    EXTI_InitStructure.EXTI_Line = EXTI_Line1;
     EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;
-    EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Rising;
+    EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Falling;
     EXTI_InitStructure.EXTI_LineCmd = ENABLE;
     EXTI_Init(&EXTI_InitStructure);
 
     /* Clear DM9000A EXTI line pending bit */
-    EXTI_ClearITPendingBit(EXTI_Line4);
+    EXTI_ClearITPendingBit(EXTI_Line1);
 }
 
 static void FSMC_Configuration()
